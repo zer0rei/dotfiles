@@ -95,7 +95,7 @@ setopt PROMPT_SUBST
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUPSTREAM="auto"
 
-export PROMPT="%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}$(box_name)%{$reset_color%}: %{$fg[blue]%}%1~%{$reset_color%}%{$fg[green]%}$(__git_ps1 ' (%s)')%{$reset_color%}$ "
+export PROMPT='%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}$(box_name)%{$reset_color%}: %{$fg[blue]%}%1~%{$reset_color%}%{$fg[green]%}$(__git_ps1 " (%s)")%{$reset_color%}$ '
 
 local return_status="%{$fg[red]%}%(?..✕)%{$reset_color%}"
 export RPROMPT='${return_status}%{$reset_color%}'
