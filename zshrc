@@ -93,6 +93,7 @@ function box_name {
 source ~/.git-prompt.sh
 setopt PROMPT_SUBST
 export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM="auto"
 
 export PROMPT='%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}$(box_name)%{$reset_color%}: %{$fg[blue]%}%1~%{$reset_color%}%{$fg[green]%}$(__git_ps1 " (%s)")%{$reset_color%}$ '
