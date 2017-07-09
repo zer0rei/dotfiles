@@ -69,9 +69,9 @@ filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"""""""""""""""""""""""""
-"   HE CONFIGURATIONS   "
-"""""""""""""""""""""""""
+""""""""""""""""""""""""""
+"    HE CONFIGURATION    "
+""""""""""""""""""""""""""
 
 """" Basic settings
 "general
@@ -145,7 +145,8 @@ filetype plugin indent on
     map <C-h> <C-W>h
     map <C-l> <C-W>l
   "quick open
-    nnoremap <leader>vn :vsplit<CR>
+    nnoremap <leader>vs :vsplit<CR>
+    nnoremap <leader>hs :split<CR>
     nnoremap <leader>tn :tabnew<CR>
     nnoremap <leader>gf :vertical wincmd f<CR>
     nnoremap <leader>nt :NERDTree<CR>
@@ -166,5 +167,5 @@ filetype plugin indent on
     noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
 
   "ale error navigation
-    nmap <leader>pe <Plug>(ale_previous_wrap)
-    nmap <leader>ne <Plug>(ale_next_wrap)
+    noremap <leader>pe <Plug>(ale_previous_wrap)
+    noremap <leader>ne <Plug>(ale_next_wrap)
