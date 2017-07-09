@@ -22,7 +22,8 @@ Plugin 'gmarik/Vundle.vim'
 " " plugin on GitHub repo
 Plugin 'scrooloose/nerdtree'             "filetree explorer
 Plugin 'tpope/vim-fugitive'              "git wrapper
-Plugin 'scrooloose/syntastic'            "syntax checker
+"Plugin 'scrooloose/syntastic'            "syntax checker
+Plugin 'w0rp/ale'	                       "async syntax checker
 Plugin 'kien/ctrlp.vim'                  "fuzzy file finder
 Plugin 'ervandew/supertab'               "use <tab> for insert mode completions
 Plugin 'tpope/vim-surround'              "simple mappings for quoting/parenthesizing
@@ -33,6 +34,7 @@ Plugin 'mattn/emmet-vim'                 "expand html abbreviations
 Plugin 'pangloss/vim-javascript'         "expand javascript support
 Plugin 'nathanaelkane/vim-indent-guides' "add indent guides
 Plugin 'bling/vim-airline'               "add status/tabline
+Plugin 'vim-airline/vim-airline-themes'	 "themes for airline
 Plugin 'mxw/vim-jsx'                     "react jsx syntax highlighting and indenting
 Plugin 'othree/html5.vim'                "html5 omnicomplete and syntax
 Plugin 'peterhoeg/vim-qml'	             "qml syntax highlighting
@@ -112,8 +114,14 @@ filetype plugin indent on
   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=232
   autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
 "Airline options
-  set laststatus=2
-  set ttimeoutlen=50
+  let g:airline_theme='luna'
+  let g:airline_powerline_fonts = 1
+  "set the filename section
+  let g:airline_section_c = '%t'
+  "set the line number section
+  let g:airline_section_z = airline#section#create(['windowswap', '%3p%% ', 'linenr', ':%3v'])
+  "ale syntax checker status
+  let g:airline#extensions#ale#enabled = 1
 "CtrlP options
   let g:ctrlp_max_files = 0
 "Syntastic options
@@ -156,3 +164,7 @@ filetype plugin indent on
 
   "preserve indentation while pasting text from the OS X clipboard
     noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
+
+  "ale error navigation
+    nmap <leader>pe <Plug>(ale_previous_wrap)
+    nmap <leader>ne <Plug>(ale_next_wrap)
