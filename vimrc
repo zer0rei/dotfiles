@@ -167,5 +167,5 @@ filetype plugin indent on
     noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
 
   "ale error navigation
-    noremap <leader>pe <Plug>(ale_previous_wrap)
-    noremap <leader>ne <Plug>(ale_next_wrap)
+    nmap <leader>pe <Plug>(ale_previous_wrap)
+    nmap <leader>ne <Plug>(ale_next_wrap)
