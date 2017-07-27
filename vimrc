@@ -116,6 +116,7 @@ filetype plugin indent on
 "Airline options
   let g:airline_theme='luna'
   let g:airline_powerline_fonts = 1
+  let g:ale_linters = { 'javascript': ['eslint'] }
   "set the filename section
   let g:airline_section_c = '%t'
   "set the line number section

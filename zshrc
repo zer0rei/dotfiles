@@ -132,3 +132,8 @@ bindkey '^N' history-search-forward
 
 # POWERLEVEL9K_HIDE_BRANCH_ICON=true
 # POWERLEVEL9K_VCS_BRANCH_ICON=''
+
+# iterm2 shell integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# zsh prompt syntax highlighting
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
