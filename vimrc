@@ -29,7 +29,7 @@ Plugin 'ervandew/supertab'               "use <tab> for insert mode completions
 Plugin 'tpope/vim-surround'              "simple mappings for quoting/parenthesizing
 Plugin 'tomasr/molokai'                  "molokai colorscheme
 Plugin 'mileszs/ack.vim'                 "vim plugin for ack
-Plugin 'craigemery/vim-autotag'          "updates tags files automatically when saving
+"Plugin 'craigemery/vim-autotag'          "updates tags files automatically when saving
 Plugin 'mattn/emmet-vim'                 "expand html abbreviations
 Plugin 'pangloss/vim-javascript'         "expand javascript support
 Plugin 'nathanaelkane/vim-indent-guides' "add indent guides
@@ -39,6 +39,9 @@ Plugin 'mxw/vim-jsx'                     "react jsx syntax highlighting and inde
 Plugin 'othree/html5.vim'                "html5 omnicomplete and syntax
 Plugin 'peterhoeg/vim-qml'	             "qml syntax highlighting
 Plugin 'edtsft/vim-qrc'	                 "qt->qrc syntax highlighting
+Plugin 'Vimjas/vim-python-pep8-indent'	 "comply with pep8 in python indentation
+Plugin 'SirVer/ultisnips'	               "snippets engine for vim
+Plugin 'honza/vim-snippets'	             "snippets
 "Plugin 'Valloric/YouCompleteMe'          "tab completion
 
 " " plugin from http://vim-scripts.org/vim/scripts.html
@@ -91,6 +94,8 @@ filetype plugin indent on
   set expandtab
   set tabstop=2
   set shiftwidth=2
+  "python
+  autocmd FileType python setlocal sw=4 ts=4
 "searching
   set hlsearch
   set incsearch
@@ -141,8 +146,8 @@ filetype plugin indent on
   "better escape
     inoremap jj <Esc>
   "better movements between splits
-    map <C-j> <C-W>j
-    map <C-k> <C-W>k
+    "map <C-j> <C-W>j
+    "map <C-k> <C-W>k
     map <C-h> <C-W>h
     map <C-l> <C-W>l
   "quick open

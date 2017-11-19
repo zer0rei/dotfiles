@@ -49,6 +49,9 @@ export PATH="/usr/local/sbin:$PATH"
 # add qt to path
 export PATH="/usr/local/opt/qt/bin:$PATH"
 
+# add anaconda to path
+export PATH=/Users/hamza/anaconda3/bin:$PATH
+
 # alias
 alias racket="rlwrap -c racket"
 alias npmo="npm --cache-min 9999999"

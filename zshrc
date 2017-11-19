@@ -57,7 +57,25 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# path
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+
+# add anaconda to path
+export PATH=/Users/hamza/anaconda3/bin:$PATH
+
+# remove/add anaconda to path automatically when brewing
+export SANS_ANACONDA="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+export PATH="/Users/hamza/anaconda3/bin:$SANS_ANACONDA"
+
+alias prebrew="export PATH="\$SANS_ANACONDA" && echo Removing anaconda from PATH."
+alias postbrew="export PATH="/Applications/anaconda/bin:\$SANS_ANACONDA" && echo Adding anaconda to PATH."
+
+brew () {
+  prebrew
+  command brew "$@"
+  postbrew
+}
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -84,20 +102,18 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 
 # prompt
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
-
 source ~/.git-prompt.sh
 setopt PROMPT_SUBST
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM="auto"
-
 export PROMPT='%{$fg[magenta]%}%n%{$reset_color%}@%{$fg[yellow]%}$(box_name)%{$reset_color%}: %{$fg[blue]%}%1~%{$reset_color%}%{$fg[green]%}$(__git_ps1 " (%s)")%{$reset_color%}$ '
-
 local return_status="%{$fg[red]%}%(?..✕)%{$reset_color%}"
 export RPROMPT='${return_status}%{$reset_color%}'
 
