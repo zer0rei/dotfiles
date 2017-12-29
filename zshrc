@@ -68,7 +68,7 @@ export SANS_ANACONDA="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sb
 export PATH="/Users/hamza/anaconda3/bin:$SANS_ANACONDA"
 
 alias prebrew="export PATH="\$SANS_ANACONDA" && echo Removing anaconda from PATH."
-alias postbrew="export PATH="/Applications/anaconda/bin:\$SANS_ANACONDA" && echo Adding anaconda to PATH."
+alias postbrew="export PATH="/Users/hamza/anaconda3/bin:\$SANS_ANACONDA" && echo Adding anaconda to PATH."
 
 brew () {
   prebrew
