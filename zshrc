@@ -55,7 +55,9 @@ plugins=(git osx extract z web-search)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+######################
+# User configuration #
+######################
 
 # path
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
@@ -75,6 +77,9 @@ brew () {
   command brew "$@"
   postbrew
 }
+
+# don't add commands that are prepended with a space to history
+setopt histignorespace
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -103,6 +108,13 @@ brew () {
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
+alias ta='task'
+alias op='open'
+# start a python http server
+alias pyserv='python -m http.server 8080'
+# thefuck aliases
+eval $(thefuck --alias)
+eval $(thefuck --alias f)
 
 # prompt
 function box_name {
