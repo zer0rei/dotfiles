@@ -3,39 +3,60 @@
 """" PLUGIN MANAGER
 
 """ Vim-plug BEGIN
-  call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plugged')
 
-""" Vim-plug PLUGINS LIST
+""" PLUGIN LIST
 " filetree explorer
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" git status flags on NerdTree
+" Plug 'Xuyuanp/nerdtree-git-plugin'
 " git wrapper
 Plug 'tpope/vim-fugitive'
+" show a git diff in the 'gutter'
+Plug 'airblade/vim-gitgutter'
 " async syntax checker
 Plug 'w0rp/ale'
 " fuzzy file finder
 Plug 'kien/ctrlp.vim'
+" fuzzy file finder
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 " use <tab> for insert mode completions
 Plug 'ervandew/supertab'
 " simple mappings for quoting/parenthesizing
 Plug 'tpope/vim-surround'
+" remap . in a way that plugins can tap into it
+Plug 'tpope/vim-repeat'
+" vim motion on speed
+Plug 'easymotion/vim-easymotion'
 " molokai colorscheme
 Plug 'tomasr/molokai'
+" oceanic-next colorscheme
+Plug 'mhartington/oceanic-next'
 " vim plugin for ack
 Plug 'mileszs/ack.vim'
 " vim plugin for the silver searcher
 Plug 'rking/ag.vim'
 " expand html abbreviations
 Plug 'mattn/emmet-vim'
-" expand javascript support
-Plug 'pangloss/vim-javascript'
 " add indent guides
 Plug 'nathanaelkane/vim-indent-guides'
 " add status/tabline
 Plug 'bling/vim-airline'
 " themes for airline
 Plug 'vim-airline/vim-airline-themes'
+" a collection of language packs for Vim
+Plug 'sheerun/vim-polyglot'
+" expand javascript support
+Plug 'pangloss/vim-javascript'
 " react jsx syntax highlighting and indenting
 Plug 'mxw/vim-jsx'
+" yet Another JavaScript Syntax file for Vim
+Plug 'othree/yajs.vim'
+" syntax for javascript libraries
+Plug 'othree/javascript-libraries-syntax.vim'
+" tools for developing with Node.js in vim
+Plug 'moll/vim-node'
 "Plug 'maxmellon/vim-jsx-pretty'
 "Plug 'chemzqm/vim-jsx-improve' "disabled vim-javascript to enable this
 " html5 omnicomplete and syntax
@@ -58,6 +79,8 @@ Plug 'blindFS/vim-taskwarrior'
 Plug 'StanAngeloff/php.vim'
 " open list o most recently used files
 Plug 'yegappan/mru'
+" sublime text style multiple selections for Vim
+Plug 'terryma/vim-multiple-cursors'
 " syntax checker
 "Plug 'scrooloose/syntastic'
 " tab completion
@@ -86,6 +109,8 @@ au BufWrite /private/etc/pw.* set nowritebackup
 set encoding=utf8
 " disable automatic commenting
 au FileType * set fo-=c fo-=r fo-=o
+"" Completion
+set complete=.,b,u,]
 "" Tabing
 set expandtab
 set tabstop=2
@@ -98,69 +123,29 @@ set incsearch
 set ignorecase
 set smartcase
 "" Visuals
+" for vim 7
+set t_Co=256
+" for vim 8
+if (has("termguicolors"))
+  set termguicolors
+endif
+" theme
 colorscheme molokai
 set background=dark
 set mouse=a
 set number
+set relativenumber
 set cursorline
 " highlight number on cursorline
-hi LineNr term=bold ctermfg=DarkGrey gui=bold guifg=DarkGrey
+hi LineNr term=bold ctermfg=237 ctermbg=NONE gui=bold guifg=#3a3a3a guibg=NONE
 hi clear CursorLine
 augroup CLClear
   autocmd! ColorScheme * hi clear CursorLine
 augroup END
 hi CursorLineNr term=bold ctermfg=Yellow gui=bold guifg=Yellow
 
-""" PLUGINS
-"" Indent guides options
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=232
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=233
-"" Airline options
-let g:airline_theme='luna'
-let g:airline_powerline_fonts = 1
-let g:ale_linters = { 'javascript': ['eslint'] }
-" set the filename section
-let g:airline_section_c = '%t'
-" set the line number section
-let g:airline_section_z = airline#section#create(['windowswap', '%3p%% ', 'linenr', ':%3v'])
-" ale syntax checker status
-let g:airline#extensions#ale#enabled = 1
-"" CtrlP options
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site|node_modules)$',
-  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-\}
-let g:ctrlp_max_files = 0
-let g:ctrlp_working_path_mode = 'r'
-"" Syntastic options
-let g:syntastic_javascript_checkers = ['eslint']
-"" JSX options
-" allow JSX in normal JS files
-let g:jsx_ext_required = 0
-"" Ledger options
-let g:ledger_align_at = 60
-let g:ledger_decimal_sep = '.'
-let g:ledger_default_commodity = 'MAD'
-let g:ledger_commodity_before = 0
-let g:ledger_commodity_sep = ' '
-au FileType ledger inoremap <silent> <s-Tab> <c-x><c-o>
-au FileType ledger vnoremap <silent><buffer> <TAB> :LedgerAlign<CR>
-au FileType ledger inoremap <silent><buffer> <c-a> <Esc>:call ledger#align_amount_at_cursor()<CR>
-au FileType ledger noremap { ?^\d<CR>
-au FileType ledger noremap } /^\d<CR>
-au FileType ledger noremap <silent><buffer> <c-t> :call ledger#transaction_state_toggle(line('.'), ' *?!')<CR>
-"" Emmet options
-let g:user_emmet_settings = {
-  \  'javascript.jsx' : {
-    \      'extends' : 'jsx',
-    \  },
-  \}
-"" Custom snippets folder
-set runtimepath+=~/.vim/he-snippets/
-
 """ MAPPINGS
-"" Basic
+"" General
 " leader
 nnoremap <space> <nop>
 let mapleader = "\<space>"
@@ -188,7 +173,6 @@ nnoremap <leader>tn :tabnew<CR>
 nnoremap <leader>tc :tabclose<CR>
 " remove highlight
 nnoremap <leader>nh :nohlsearch<CR>
-nnoremap <leader><space> :nohlsearch<CR>
 " buffers
 nnoremap <leader>l :bn<CR>
 nnoremap <leader>L :bn!<CR>
@@ -235,7 +219,70 @@ noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
 " preserve visual selection after indenting
 vmap > >gv
 vmap < <gv
-"" Ale
+"" Ale mappings
 " ale error navigation
 nmap <leader>erp <Plug>(ale_previous_wrap)
 nmap <leader>ern <Plug>(ale_next_wrap)
+"" Fzf mappings
+nmap <leader><tab> :Files<CR>
+nmap <leader>fzf :Files<CR>
+nmap <leader>fzb :Buffers<CR>
+nmap <leader>fzc :Commits<CR>
+"" Fugitive mappings
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gw :Gwrite<CR>
+nnoremap <leader>gr :Gread<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gd :Gdiff<CR>
+nnoremap <leader>gmv :Gmove<space>
+nnoremap <leader>gb :Git branch<Space>
+nnoremap <leader>go :Git checkout<Space>
+
+""" PLUGINS
+"" Indent guides options
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=NONE guibg=NONE
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=232 guibg=#080808
+nnoremap <leader>ig :IndentGuidesToggle<CR>
+"" Airline options
+let g:airline_theme='luna'
+let g:airline_powerline_fonts = 1
+let g:ale_linters = { 'javascript': ['eslint'] }
+" set the filename section
+let g:airline_section_c = '%t'
+" set the line number section
+let g:airline_section_z = airline#section#create(['windowswap', '%3p%% ', 'linenr', ':%3v'])
+" ale syntax checker status
+let g:airline#extensions#ale#enabled = 1
+"" CtrlP options
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site|node_modules)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
+let g:ctrlp_max_files = 0
+let g:ctrlp_working_path_mode = 'r'
+"" Syntastic options
+let g:syntastic_javascript_checkers = ['eslint']
+"" JSX options
+" allow JSX in normal JS files
+let g:jsx_ext_required = 0
+"" Ledger options
+let g:ledger_align_at = 60
+let g:ledger_decimal_sep = '.'
+let g:ledger_default_commodity = 'MAD'
+let g:ledger_commodity_before = 0
+let g:ledger_commodity_sep = ' '
+au FileType ledger inoremap <silent> <s-Tab> <c-x><c-o>
+au FileType ledger vnoremap <silent><buffer> <TAB> :LedgerAlign<CR>
+au FileType ledger inoremap <silent><buffer> <c-a> <Esc>:call ledger#align_amount_at_cursor()<CR>
+au FileType ledger noremap { ?^\d<CR>
+au FileType ledger noremap } /^\d<CR>
+au FileType ledger noremap <silent><buffer> <c-t> :call ledger#transaction_state_toggle(line('.'), ' *?!')<CR>
+"" Emmet options
+let g:user_emmet_settings = {
+  \  'javascript.jsx' : {
+    \      'extends' : 'jsx',
+    \  },
+  \}
+"" Custom snippets folder
+set runtimepath+=~/.vim/he-snippets/

@@ -1,11 +1,16 @@
 ##### HE: ZSHRC
 
-#### OH-MY-ZSH
+#### PLUGIN MANAGER
+
+### OH-MY-ZSH
+## Path to oh-my-zsh installation
 export ZSH=$HOME/.oh-my-zsh
 
-### PLUGINS
-plugins=(git osx extract z web-search)
+## Plugin list
+plugins=(git osx extract z web-search colored-man-pages)
+plugins+=(k zsh-autosuggestions)
 
+## Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 
@@ -28,8 +33,15 @@ brew () {
 
 ### ALIAS
 alias c="clear"
-alias ez="vi $HOME/.zshrc"
+alias v="vim"
 alias ta="task"
+alias tt="tmux attach -t"
+alias tma="tmux attach -t"
+alias tmn="tmux new -s"
+alias tml='tmux list-sessions'
+alias ze="vim $HOME/.zshrc"
+alias ve="vim $HOME/.vimrc"
+alias zs="source $HOME/.zshrc"
 alias op="open"
 alias brewup="brew update; brew upgrade; brew prune; brew cleanup; brew doctor"
 # start a python http server
@@ -39,6 +51,7 @@ eval $(thefuck --alias)
 eval $(thefuck --alias f)
 
 ### PROMPT
+autoload -U colors && colors
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname -s
 }
@@ -72,3 +85,27 @@ eval "$(rbenv init - zsh)"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 # zsh prompt syntax highlighting
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+### PLUGINS
+## Autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=0"
+bindkey '^ ' autosuggest-accept
+
+### FUNCTIONS
+# print terminal colors
+function print-colors() {
+  for i in {0..255} ; do
+    printf "\x1b[48;5;%sm%3d\e[0m " "$i" "$i"
+    if (( i == 15 )) || (( i > 15 )) && (( (i-15) % 6 == 0 )); then
+        printf "\n";
+    fi
+  done
+}
+# myi IP address
+function myip() {
+  ifconfig lo0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "lo0       : " $2}'
+	ifconfig en0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en0 (IPv4): " $2 " " $3 " " $4 " " $5 " " $6}'
+	ifconfig en0 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en0 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
+	ifconfig en1 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en1 (IPv4): " $2 " " $3 " " $4 " " $5 " " $6}'
+	ifconfig en1 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en1 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
+}
