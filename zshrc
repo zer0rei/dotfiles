@@ -33,17 +33,24 @@ brew () {
 
 ### ALIAS
 alias c="clear"
-alias v="vim"
-alias ta="task"
-alias tt="tmux attach -t"
+alias v="nvim"
+alias nv="nvim"
+alias ts="task"
+alias t="tmux attach -t"
 alias tma="tmux attach -t"
 alias tmn="tmux new -s"
 alias tml='tmux list-sessions'
 alias ze="vim $HOME/.zshrc"
 alias ve="vim $HOME/.vimrc"
+alias nve="nvim $HOME/.vimrc"
 alias zs="source $HOME/.zshrc"
 alias op="open"
+alias ios-simulator="open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app"
 alias brewup="brew update; brew upgrade; brew prune; brew cleanup; brew doctor"
+alias kh="k -h"
+# rebrandly
+alias rbrc="$HOME/Documents/Code/Scripts/rebrandly/rebrandly-create.py"
+alias rbrd="$HOME/Documents/Code/Scripts/rebrandly/rebrandly-delete.py"
 # start a python http server
 alias pyserv="python -m http.server 8080"
 # thefuck aliases
@@ -108,4 +115,48 @@ function myip() {
 	ifconfig en0 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en0 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
 	ifconfig en1 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en1 (IPv4): " $2 " " $3 " " $4 " " $5 " " $6}'
 	ifconfig en1 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en1 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
+}
+# open localhost in safari
+function ols() {
+	if [ $# -eq 0 ]; then
+		open http://localhost:8080
+	else
+		open http://localhost:$1
+	fi
+}
+# open localhost in chrome
+function olc() {
+	if [ $# -eq 0 ]; then
+    port=8080
+  else
+    port=$1
+  fi
+  osascript $HOME/Documents/Code/Scripts/chrome/open-url-normal.applescript "http://localhost:$port"
+}
+# list tasks with specific project
+function tspl() {
+  local projects=""
+  local last=false
+  for arg; do
+    if [ $arg = "and" ]; then
+      projects+=" and"
+      last=false
+      continue
+    elif [ $arg = "or" ]; then
+      projects+=" or"
+      last=false
+      continue
+    fi
+    if [ "$last" = false ]; then
+      projects+=" project:$arg"
+      last=true
+    else
+      projects+=" $arg"
+    fi
+  done
+  eval task $projects list
+}
+# add tasks with specific project
+function tspa() {
+  task add project:$1 "${@:2}"
 }

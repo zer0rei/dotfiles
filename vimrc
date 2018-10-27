@@ -23,6 +23,8 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 " use <tab> for insert mode completions
 Plug 'ervandew/supertab'
+" Comment functions
+Plug 'scrooloose/nerdcommenter'
 " simple mappings for quoting/parenthesizing
 Plug 'tpope/vim-surround'
 " remap . in a way that plugins can tap into it
@@ -71,16 +73,50 @@ Plug 'Vimjas/vim-python-pep8-indent', {'for': 'py'}
 Plug 'SirVer/ultisnips'
 " snippets
 Plug 'honza/vim-snippets'
+" react code snippets
+Plug 'epilande/vim-react-snippets'
 " ledger filetype for vim
 Plug 'ledger/vim-ledger', {'for': ['ledger', 'ldg', 'dat']}
 " vim interface for taskwarrior
 Plug 'blindFS/vim-taskwarrior'
 " up to date php syntax for vim
-Plug 'StanAngeloff/php.vim'
-" open list o most recently used files
+Plug 'StanAngeloff/php.vim', {'for': 'php'}
+" better indent HTML sections in PHP files
+Plug 'captbaritone/better-indent-support-for-php-with-html', {'for': 'php'}
+" pug template engine syntax highlighting and indention
+Plug 'digitaltoad/vim-pug'
+" open a list of most recently used files
 Plug 'yegappan/mru'
 " sublime text style multiple selections for Vim
 Plug 'terryma/vim-multiple-cursors'
+" dark powered asynchronous completion framework for neovim/Vim8
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+" LSP support for vim and neovim
+Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \ }
+" tern-based JavaScript editing support
+"  (requires npm install inside .vim/plugged/tern_for_vim)
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
+" deoplete.nvim source for javascript
+Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+" completion function for function parameters
+Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
+" deoplete.nvim source for Python
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }
+" omni-completion plugin for Java
+Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+" syntax source for neocomplete/deoplete/ncm
+Plug 'Shougo/neco-syntax'
+" completion of words in adjacent tmux panes
+Plug 'wellle/tmux-complete.vim'
 " syntax checker
 "Plug 'scrooloose/syntastic'
 " tab completion
@@ -111,6 +147,7 @@ set encoding=utf8
 au FileType * set fo-=c fo-=r fo-=o
 "" Completion
 set complete=.,b,u,]
+set completeopt=longest,menuone,preview
 "" Tabing
 set expandtab
 set tabstop=2
@@ -158,6 +195,9 @@ inoremap jj <Esc>
 " apply mapping
 nnoremap Q @q
 vnoremap Q :norm @q<CR>
+" better completion (uncomment if not using a plugin)
+"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " better movements between splits
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -177,10 +217,12 @@ nnoremap <leader>tc :tabclose<CR>
 nnoremap <leader>nh :nohlsearch<CR>
 " buffers
 nnoremap <leader>l :bn<CR>
+nnoremap <leader>ll :bn<CR>
 nnoremap <leader>L :bn!<CR>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>Bn :bn!<CR>
 nnoremap <leader>h :bp<CR>
+nnoremap <leader>hh :bp<CR>
 nnoremap <leader>H :bp!<CR>
 nnoremap <leader>bp :bp<CR>
 nnoremap <leader>Bp :bp!<CR>
@@ -239,6 +281,12 @@ nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gmv :Gmove<space>
 nnoremap <leader>gb :Git branch<Space>
 nnoremap <leader>go :Git checkout<Space>
+"" LanguageClient mappings
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+nnoremap <leader>lf :call LanguageClient_textDocument_documentSymbol()<CR>
 
 """ PLUGINS
 "" Indent guides options
@@ -282,9 +330,45 @@ au FileType ledger noremap } /^\d<CR>
 au FileType ledger noremap <silent><buffer> <c-t> :call ledger#transaction_state_toggle(line('.'), ' *?!')<CR>
 "" Emmet options
 let g:user_emmet_settings = {
-  \  'javascript.jsx' : {
-    \      'extends' : 'jsx',
-    \  },
-  \}
+      \  'javascript.jsx' : {
+      \      'extends' : 'jsx',
+      \  },
+      \}
+"" Deoplete options
+let g:deoplete#enable_at_startup = 1
+" disable the candidates in Comment/String syntaxes.
+call deoplete#custom#source('_',
+      \ 'disabled_syntaxes', ['Comment', 'String'])
+" sources
+call deoplete#custom#option('sources', {
+      \ '_': ['file', 'ultisnips'],
+      \ 'html': ['file', 'ultisnips', 'LanguageClient'],
+      \ 'css': ['file', 'ultisnips', 'LanguageClient'],
+      \ 'javascript': ['file', 'ultisnips', 'LanguageClient'],
+      \ 'python': ['file', 'ultisnips', 'LanguageClient'],
+      \ })
+"" LSP options
+" automatically start language servers.
+let g:LanguageClient_autoStart = 1
+" required for operations modifying multiple buffers like rename.
+set hidden
+" servers
+let g:LanguageClient_serverCommands = {
+      \ 'html': ['html-languageserver', '--stdio'],
+      \ 'css': ['css-languageserver', '--stdio'],
+      \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+      \ 'javascript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
+      \ 'python': ['/usr/local/bin/pyls'],
+      \ }
+"" Supertab options
+" setup completion chaining, omni then keyword
+"autocmd FileType *
+      "\ if &omnifunc != '' |
+      "\   call SuperTabChain(&omnifunc, "<c-p>") |
+      "\ endif
+" close the preview window when you're not using it
+let g:SuperTabClosePreviewOnPopupClose = 1
+"" Ultisnips options
+let g:UltiSnipsExpandTrigger="<C-e>"
 "" Custom snippets folder
 set runtimepath+=~/.vim/he-snippets/
