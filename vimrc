@@ -117,6 +117,10 @@ Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 Plug 'Shougo/neco-syntax'
 " completion of words in adjacent tmux panes
 Plug 'wellle/tmux-complete.vim'
+" navigate seamlessly between vim and tmux splits
+Plug 'christoomey/vim-tmux-navigator'
+" easily interact with tmux from vim
+Plug 'benmills/vimux'
 " syntax checker
 "Plug 'scrooloose/syntastic'
 " tab completion
@@ -204,6 +208,7 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 " quick open
+nnoremap <leader>ss :vsplit<CR>
 nnoremap <leader>sv :vsplit<CR>
 nnoremap <leader>sh :split<CR>
 nnoremap <leader>gf :vertical wincmd f<CR>
@@ -281,6 +286,11 @@ nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gmv :Gmove<space>
 nnoremap <leader>gb :Git branch<Space>
 nnoremap <leader>go :Git checkout<Space>
+"" Vimux mappings
+nnoremap <leader>vp :VimuxPromptCommand<CR>
+nnoremap <leader>vl :VimuxRunLastCommand<CR>
+nnoremap <leader>vi :VimuxInspectRunner<CR>
+nnoremap <leader>vz :VimuxZoomRunner<CR>
 "" LanguageClient mappings
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
