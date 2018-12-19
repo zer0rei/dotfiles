@@ -1,0 +1,31 @@
+priority -50
+
+snippet ch "Checking Transaction" b
+${1:`!v strftime("%Y")`}-${2:`!v strftime("%m")`}-${3:`!v strftime("%d")`} ${4:*} ${5:Payee}
+	Expenses:${6:Other}  		${7:0.00}
+	${8:Assets:MA:CIH:Checking}$0
+endsnippet
+
+snippet ca "Cash Transaction" b
+${1:`!v strftime("%Y")`}-${2:`!v strftime("%m")`}-${3:`!v strftime("%d")`} ${4:*} ${5:Payee}
+	Expenses:${6:Other}  		${7:0.00}
+	${8:Assets:Cash}$0
+endsnippet
+
+snippet wa "Water Bill" b
+${1:`!v strftime("%Y")`}-${2:`!v strftime("%m")`}-${3:`!v strftime("%d")`} * Radeema
+	Expenses:Utils:Water  		${4:0.00}
+	${5:Assets:MA:CIH:Checking}$0
+endsnippet
+
+snippet el "Electric Bill" b
+${1:`!v strftime("%Y")`}-${2:`!v strftime("%m")`}-${3:`!v strftime("%d")`} * Radeema
+	Expenses:Utils:Electric  		${4:0.00}
+	${5:Assets:MA:CIH:Checking}$0
+endsnippet
+
+snippet ga "Gaz Bill" b
+${1:`!v strftime("%Y")`}-${2:`!v strftime("%m")`}-${3:`!v strftime("%d")`} * Home
+	Expenses:Utils:Gaz  		${4:0.00}
+	${5:Assets:Cash}$0
+endsnippet
