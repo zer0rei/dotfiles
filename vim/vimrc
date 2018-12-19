@@ -159,7 +159,7 @@ set encoding=utf8
 autocmd FileType * set fo-=c fo-=r fo-=o
 "" Completion
 set complete=.,b,u,]
-set completeopt=longest,menuone,preview
+set completeopt=longest,menuone
 "" Tabing
 set expandtab
 set tabstop=2
@@ -240,9 +240,9 @@ nnoremap <leader>nh :nohlsearch<CR>
 " toggle preview window
 function! PreviewToggle()
   if (&completeopt =~ '.*preview.*')
-    set completeopt-=preview
+    execute "set completeopt-=preview"
   else
-    set completeopt+=preview
+    execute "set completeopt+=preview"
   endif
 endfunction
 nnoremap <leader>prv :call PreviewToggle()<CR>
