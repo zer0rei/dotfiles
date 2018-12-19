@@ -49,8 +49,8 @@ alias ios-simulator="open /Applications/Xcode.app/Contents/Developer/Application
 alias brewup="brew update; brew upgrade; brew prune; brew cleanup; brew doctor"
 alias kh="k -h"
 # rebrandly
-alias rbrc="$HOME/Documents/Code/Scripts/rebrandly/rebrandly-create.py"
-alias rbrd="$HOME/Documents/Code/Scripts/rebrandly/rebrandly-delete.py"
+alias rbrc="$HOME/Documents/Code/Scripts/rebrandly/rebrandly_create.py"
+alias rbrd="$HOME/Documents/Code/Scripts/rebrandly/rebrandly_delete.py"
 # start a python http server
 alias pyserv="python -m http.server 8080"
 # thefuck aliases

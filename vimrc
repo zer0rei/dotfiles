@@ -23,7 +23,7 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 " use <tab> for insert mode completions
 Plug 'ervandew/supertab'
-" Comment functions
+" comment functions
 Plug 'scrooloose/nerdcommenter'
 " simple mappings for quoting/parenthesizing
 Plug 'tpope/vim-surround'
@@ -31,10 +31,14 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 " vim motion on speed
 Plug 'easymotion/vim-easymotion'
+" insert or delete brackets, parens, quotes in pair
+Plug 'jiangmiao/auto-pairs'
 " molokai colorscheme
 Plug 'tomasr/molokai'
 " oceanic-next colorscheme
 Plug 'mhartington/oceanic-next'
+" monokai inspired colorscheme
+Plug 'patstockwell/vim-monokai-tasty'
 " vim plugin for ack
 Plug 'mileszs/ack.vim'
 " vim plugin for the silver searcher
@@ -53,6 +57,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'pangloss/vim-javascript'
 " react jsx syntax highlighting and indenting
 Plug 'mxw/vim-jsx'
+" better json for vim
+Plug 'elzr/vim-json'
 " yet Another JavaScript Syntax file for Vim
 Plug 'othree/yajs.vim'
 " syntax for javascript libraries
@@ -61,6 +67,8 @@ Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'moll/vim-node'
 "Plug 'maxmellon/vim-jsx-pretty'
 "Plug 'chemzqm/vim-jsx-improve' "disabled vim-javascript to enable this
+" css3 syntax
+Plug 'hail2u/vim-css3-syntax'
 " html5 omnicomplete and syntax
 Plug 'othree/html5.vim', {'for': 'html'}
 " qml syntax highlighting
@@ -104,9 +112,9 @@ Plug 'autozimu/LanguageClient-neovim', {
       \ }
 " tern-based JavaScript editing support
 "  (requires npm install inside .vim/plugged/tern_for_vim)
-Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
+"Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
 " deoplete.nvim source for javascript
-Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
+"Plug 'carlitux/deoplete-ternjs', { 'for': ['javascript', 'javascript.jsx'] }
 " completion function for function parameters
 Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 " deoplete.nvim source for Python
@@ -173,7 +181,8 @@ if (has("termguicolors"))
   set termguicolors
 endif
 " theme
-colorscheme molokai
+let g:vim_monokai_tasty_italic = 1
+colorscheme vim-monokai-tasty
 set background=dark
 set mouse=a
 set number
@@ -207,6 +216,12 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+" split resize
+nnoremap <leader>= <C-W>=
+nnoremap <leader>> <C-W>>
+nnoremap <leader>< <C-W><
+nnoremap <leader>+ <C-W>+
+nnoremap <leader>- <C-W>-
 " quick open
 nnoremap <leader>ss :vsplit<CR>
 nnoremap <leader>sv :vsplit<CR>
@@ -245,7 +260,9 @@ nnoremap <leader>En :enew!<CR>
 nnoremap <leader>ef :e<Space>
 " edit/save vimrc
 nnoremap <leader>ve :edit $MYVIMRC<CR>
+nnoremap <leader>vrc :edit $HOME/.vimrc<CR>
 nnoremap <leader>Ve :edit! $MYVIMRC<CR>
+nnoremap <leader>Vrc :edit $HOME/.vimrc<CR>
 nnoremap <leader>vs :source $MYVIMRC<CR>:nohlsearch<CR>
 " quit a file
 nnoremap <leader>q :q<CR>
@@ -256,7 +273,7 @@ nnoremap <leader>w :w<CR>
 nnoremap <leader>wq :wq<CR>
 nnoremap <leader>Wq :wq!<CR>
 " open mru vim
-nnoremap <leader>f :MRU<CR>
+nnoremap <leader>fr :MRU<CR>
 " add line without changing mode or position
 nnoremap <leader>o m`o<Esc>``
 nnoremap <leader>O m`O<Esc>``
@@ -305,7 +322,8 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=NONE guibg=NONE
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=232 guibg=#080808
 nnoremap <leader>ig :IndentGuidesToggle<CR>
 "" Airline options
-let g:airline_theme='luna'
+let g:airline_theme='monokai_tasty'
+"let g:airline_theme='luna'
 let g:airline_powerline_fonts = 1
 let g:ale_linters = { 'javascript': ['eslint'] }
 " set the filename section
@@ -351,12 +369,18 @@ call deoplete#custom#source('_',
       \ 'disabled_syntaxes', ['Comment', 'String'])
 " sources
 call deoplete#custom#option('sources', {
-      \ '_': ['file', 'ultisnips'],
-      \ 'html': ['file', 'ultisnips', 'LanguageClient'],
-      \ 'css': ['file', 'ultisnips', 'LanguageClient'],
-      \ 'javascript': ['file', 'ultisnips', 'LanguageClient'],
-      \ 'python': ['file', 'ultisnips', 'LanguageClient'],
+      \ '_': ['file'],
+      \ 'html': ['file', 'LanguageClient'],
+      \ 'css': ['file', 'LanguageClient'],
+      \ 'javascript': ['file', 'LanguageClient'],
+      \ 'javascript.jsx': ['file', 'LanguageClient'],
+      \ 'typescript': ['file', 'LanguageClient'],
+      \ 'python': ['file', 'LanguageClient'],
       \ })
+" patterns
+call deoplete#custom#option('omni_patterns', {
+		\ 'java': '[^. *\t]\.\w*',
+		\})
 "" LSP options
 " automatically start language servers.
 let g:LanguageClient_autoStart = 1
@@ -368,14 +392,19 @@ let g:LanguageClient_serverCommands = {
       \ 'css': ['css-languageserver', '--stdio'],
       \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
       \ 'javascript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
+      \ 'typescript': ['/usr/local/bin/javascript-typescript-stdio'],
       \ 'python': ['/usr/local/bin/pyls'],
       \ }
+"" Javacomplete2
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
 "" Supertab options
 " setup completion chaining, omni then keyword
 "autocmd FileType *
       "\ if &omnifunc != '' |
       "\   call SuperTabChain(&omnifunc, "<c-p>") |
       "\ endif
+" set default to scroll down the list
+let g:SuperTabDefaultCompletionType = "<c-n>"
 " close the preview window when you're not using it
 let g:SuperTabClosePreviewOnPopupClose = 1
 "" Ultisnips options
