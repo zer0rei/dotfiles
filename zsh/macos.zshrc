@@ -18,6 +18,10 @@ alias ios-simulator="open /Applications/Xcode.app/Contents/Developer/Application
 alias rbrc="$HOME/Documents/Code/Scripts/rebrandly/rebrandly_create.py"
 alias rbrd="$HOME/Documents/Code/Scripts/rebrandly/rebrandly_delete.py"
 
+### OTHER
+# iterm2 shell integration
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
 ### FUNCTIONS
 # open localhost in safari
 function ols() {

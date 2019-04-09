@@ -19,12 +19,14 @@ source $ZSH/oh-my-zsh.sh
 ### CONFIGS
 # wsl config
 if [[ "$(< /proc/version)" == *@(Microsoft|Linux)* ]]; then
-  source $HOME/dotfiles/zsh/windows.zshrc
+  source $HOME/.dotfiles/zsh/windows.zshrc
 fi
 # macos config
 if [ "$(uname 2> /dev/null)" != "Linux" ]; then
-  source $HOME/dotfiles/zsh/macos.zshrc
+  source $HOME/.dotfiles/zsh/macos.zshrc
 fi
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ### PATH
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
@@ -86,8 +88,6 @@ bindkey '^N' history-search-forward
 # load rbenv automatically
 #export PATH="$HOME/.rbenv/bin:$PATH"
 #eval "$(rbenv init - zsh)"
-# iterm2 shell integration
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 # zsh prompt syntax highlighting
 #source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -148,6 +148,23 @@ function tspl() {
 function tspa() {
   task add project:$1 "${@:2}"
 }
-
-# fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# create a new react component folder
+function mkrc() {
+  case "$1" in
+    -t)
+      name="$2"
+      ext="ts"
+      ;;
+    *)
+      if [ $# -ne 1 ]; then
+        echo 'Invalid arguments'
+        return
+      fi
+      name="$1"
+      ext="js"
+  esac
+  mkdir "$name"
+  touch "${name}/${name}.${ext}x"
+  touch "${name}/index.${ext}"
+  echo "import ${name} from './${name}';\n\nexport default ${name};\nexport * from './${name}';" > "${name}/index.${ext}"
+}
