@@ -6,6 +6,8 @@
 call plug#begin('~/.vim/plugged')
 
 """ PLUGIN LIST
+" inhance netrw
+Plug 'tpope/vim-vinegar'
 " filetree explorer
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " git status flags on NerdTree
@@ -110,6 +112,10 @@ Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
       \ 'do': 'bash install.sh',
       \ }
+" Prettier
+Plug 'prettier/vim-prettier', {
+      \ 'do': 'yarn install',
+      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 " tern-based JavaScript editing support
 "  (requires npm install inside .vim/plugged/tern_for_vim)
 "Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
@@ -157,6 +163,10 @@ autocmd BufWrite /private/etc/pw.* set nowritebackup
 set encoding=utf8
 " disable automatic commenting
 autocmd FileType * set fo-=c fo-=r fo-=o
+"" Netrw
+let g:netrw_winsize = 30
+let g:netrw_liststyle=3
+autocmd FileType netrw setl bufhidden=wipe
 "" Completion
 set complete=.,b,u,]
 set completeopt=longest,menuone
@@ -231,6 +241,7 @@ nnoremap <leader>sh :split<CR>
 nnoremap <leader>gf :vertical wincmd f<CR>
 nnoremap <leader>nt :NERDTree<CR>
 nnoremap <leader>ak :Ack<space>
+nnoremap <leader>aa :Ag<space>
 nnoremap <leader>ag :Ag<space>
 " tabs
 nnoremap <leader>tn :tabnew<CR>
@@ -238,14 +249,11 @@ nnoremap <leader>tc :tabclose<CR>
 " remove highlight
 nnoremap <leader>nh :nohlsearch<CR>
 " toggle preview window
-function! PreviewToggle()
-  if (&completeopt =~ '.*preview.*')
-    execute "set completeopt-=preview"
-  else
-    execute "set completeopt+=preview"
-  endif
-endfunction
-nnoremap <leader>prv :call PreviewToggle()<CR>
+nnoremap <leader>tpr :call TogglePreview()<CR>
+" toggle relative numbers
+nnoremap <leader>trn :call ToggleRelativeNumbers()<CR>
+" strip trailing whitespaces
+nnoremap <leader>stw :call StripTrailingWhitespaces()<CR>
 " buffers
 nnoremap <leader>l :bn<CR>
 nnoremap <leader>ll :bn<CR>
@@ -269,6 +277,7 @@ nnoremap <leader>Bq :bp! <BAR> bd! #<CR>
 nnoremap <leader>en :enew<CR>
 nnoremap <leader>En :enew!<CR>
 nnoremap <leader>ef :e<Space>
+nnoremap <leader>ee :e<Space>
 " edit/save vimrc
 nnoremap <leader>ve :edit $MYVIMRC<CR>
 nnoremap <leader>vrc :edit $HOME/.vimrc<CR>
@@ -280,6 +289,8 @@ nnoremap <leader>q :q<CR>
 nnoremap <leader>Q :q!<CR>
 " save a file
 nnoremap <leader>w :w<CR>
+nnoremap <leader>ww :w<CR>
+inoremap <C-S> <Esc>:w<cr>i
 " save then quit a file
 nnoremap <leader>wq :wq<CR>
 nnoremap <leader>Wq :wq!<CR>
@@ -325,6 +336,37 @@ nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
 nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
 nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
 nnoremap <leader>lf :call LanguageClient_textDocument_documentSymbol()<CR>
+"" Prettier mappings
+nmap <Leader>py <Plug>(Prettier)
+
+""" FUNCTIONS
+" toggle preview window
+function! TogglePreview()
+  if (&completeopt =~ '.*preview.*')
+    execute "set completeopt-=preview"
+  else
+    execute "set completeopt+=preview"
+  endif
+endfunction
+" toggle between number and relativenumber
+function! ToggleRelativeNumbers()
+  if(&relativenumber == 1)
+    set norelativenumber
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+" strips trailing whitespace at the end of files.
+function! StripTrailingWhitespaces()
+  " save last search & cursor position
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  let @/=_s
+  call cursor(l, c)
+endfunction
 
 """ PLUGINS
 "" Indent guides options
@@ -363,12 +405,16 @@ let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = ' '
 augroup ledger
   autocmd!
+  autocmd FileType ledger set foldmethod=syntax
+  autocmd FileType ledger nnoremap <c-d> "=strftime("%Y-%m-%d")<CR>P
+  autocmd FileType ledger inoremap <c-d> <Esc>"=strftime("%Y-%m-%d")<CR>Pa
   autocmd FileType ledger inoremap <silent><s-Tab> <c-x><c-o>
   autocmd FileType ledger vnoremap <silent><buffer><TAB> :LedgerAlign<CR>
   autocmd FileType ledger inoremap <silent><buffer><c-a> <Esc>:call ledger#align_amount_at_cursor()<CR>
   autocmd FileType ledger noremap { ?^\d<CR>
   autocmd FileType ledger noremap } /^\d<CR>
   autocmd FileType ledger noremap <silent><buffer><c-t> :call ledger#transaction_state_toggle(line('.'), ' *?!')<CR>
+  autocmd FileType ledger nnoremap <silent><buffer><localleader>d <Esc>:call ledger#transaction_date_set(line('.'), 'auxiliary')<CR>
 augroup END
 "" Emmet options
 let g:user_emmet_settings = {
@@ -392,9 +438,9 @@ call deoplete#custom#option('sources', {
       \ 'python': ['file', 'LanguageClient'],
       \ })
 " patterns
-call deoplete#custom#option('omni_patterns', {
-		\ 'java': '[^. *\t]\.\w*',
-		\})
+"call deoplete#custom#option('omni_patterns', {
+		"\ 'java': '[^. *\t]\.\w*',
+		"\})
 "" LSP options
 " automatically start language servers
 let g:LanguageClient_autoStart = 1
@@ -412,7 +458,7 @@ let g:LanguageClient_serverCommands = {
       \ 'python': ['/usr/local/bin/pyls'],
       \ }
 "" Javacomplete2
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
+" autocmd FileType java setlocal omnifunc=javacomplete#Complete
 "" Supertab options
 " setup completion chaining, omni then keyword
 "autocmd FileType *
@@ -425,3 +471,6 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabClosePreviewOnPopupClose = 1
 "" Ultisnips options
 let g:UltiSnipsExpandTrigger="<C-e>"
+"" Prettier options
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
