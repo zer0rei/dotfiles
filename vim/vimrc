@@ -116,6 +116,8 @@ Plug 'autozimu/LanguageClient-neovim', {
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
       \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+" no-hassle Vim sessions
+Plug 'tpope/vim-obsession'
 " tern-based JavaScript editing support
 "  (requires npm install inside .vim/plugged/tern_for_vim)
 "Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'] }
@@ -182,7 +184,7 @@ set incsearch
 set ignorecase
 set smartcase
 "" Snippets
-set runtimepath+=./snippets/
+set rtp+=./custom-snippets/
 "" Visuals
 " for vim 7
 set t_Co=256
@@ -224,10 +226,14 @@ vnoremap Q :norm @q<CR>
 "inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 "inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " better movements between splits
-noremap <C-j> <C-W>j
-noremap <C-k> <C-W>k
-noremap <C-h> <C-W>h
-noremap <C-l> <C-W>l
+noremap <leader>j <C-W>j
+noremap <leader>jj <C-W>j
+noremap <leader>k <C-W>k
+noremap <leader>kk <C-W>k
+noremap <leader>h <C-W>h
+noremap <leader>hh <C-W>h
+noremap <leader>l <C-W>l
+noremap <leader>ll <C-W>l
 " split resize
 nnoremap <leader>= <C-W>=
 nnoremap <leader>> <C-W>>
@@ -255,17 +261,15 @@ nnoremap <leader>trn :call ToggleRelativeNumbers()<CR>
 " strip trailing whitespaces
 nnoremap <leader>stw :call StripTrailingWhitespaces()<CR>
 " buffers
-nnoremap <leader>l :bn<CR>
-nnoremap <leader>ll :bn<CR>
-nnoremap <leader>L :bn!<CR>
+nnoremap <leader>bl :bn<CR>
+nnoremap <leader>Bl :bn!<CR>
 nnoremap <leader>bn :bn<CR>
 nnoremap <leader>Bn :bn!<CR>
-nnoremap <leader>h :bp<CR>
-nnoremap <leader>hh :bp<CR>
-nnoremap <leader>H :bp!<CR>
+nnoremap <leader>bh :bp<CR>
+nnoremap <leader>Bh :bp!<CR>
 nnoremap <leader>bp :bp<CR>
 nnoremap <leader>Bp :bp!<CR>
-nnoremap <leader>bl :buffers<CR>
+nnoremap <leader>bs :buffers<CR>
 nnoremap <leader>bb :buffers<CR>:buffer<Space>
 nnoremap <leader>Bb :buffers<CR>:buffer!<Space>
 nnoremap <leader>bd :bd<CR>
@@ -309,8 +313,8 @@ vmap > >gv
 vmap < <gv
 "" Ale mappings
 " ale error navigation
-nnoremap <leader>erp <Plug>(ale_previous_wrap)
-nnoremap <leader>ern <Plug>(ale_next_wrap)
+nnoremap <leader>erp :ALEPreviousWrap<CR>
+nnoremap <leader>ern :ALENextWrap<CR>
 "" Fzf mappings
 nnoremap <leader><tab> :Files<CR>
 nnoremap <leader>fzf :Files<CR>
@@ -435,6 +439,7 @@ call deoplete#custom#option('sources', {
       \ 'javascript': ['file', 'LanguageClient'],
       \ 'javascript.jsx': ['file', 'LanguageClient'],
       \ 'typescript': ['file', 'LanguageClient'],
+      \ 'typescript.jsx': ['file', 'LanguageClient'],
       \ 'python': ['file', 'LanguageClient'],
       \ })
 " patterns
@@ -455,6 +460,7 @@ let g:LanguageClient_serverCommands = {
       \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
       \ 'javascript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
       \ 'typescript': ['/usr/local/bin/javascript-typescript-stdio'],
+      \ 'typescript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
       \ 'python': ['/usr/local/bin/pyls'],
       \ }
 "" Javacomplete2
@@ -474,3 +480,6 @@ let g:UltiSnipsExpandTrigger="<C-e>"
 "" Prettier options
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+"" Fzf options
+set rtp+=~/.fzf
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'

@@ -1,0 +1,30 @@
+# Typescript & JSX
+snippet rtfc "React Functional Component" b
+import React, { FC } from 'react';
+
+export type Props = {$2};
+
+const $1: FC<Props> = (${{3}:}) => {
+	return (
+		$4
+	);
+};
+
+export default $1;
+endsnippet
+
+snippet rtmfc "React Functional Component" b
+import React, { FC } from 'react';
+import { makeStyles } from '@material-ui/styles';
+
+export type Props = {$2};
+
+const $1: FC<Props> = (${{3}:}) => {
+  const classes = useStyles();
+	return (
+		$4
+	);
+};
+
+export default $1;
+endsnippet
