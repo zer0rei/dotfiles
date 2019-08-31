@@ -1,11 +1,13 @@
-""""" HE: VIMRC
-
 """" PLUGIN MANAGER
 
 """ Vim-plug BEGIN
 call plug#begin('~/.vim/plugged')
 
 """ PLUGIN LIST
+" extensible interface for searching and displaying lists of information
+Plug 'Shougo/denite.nvim'
+" mru sources for denite
+Plug 'Shougo/neomru.vim'
 " inhance netrw
 Plug 'tpope/vim-vinegar'
 " filetree explorer
@@ -17,14 +19,15 @@ Plug 'tpope/vim-fugitive'
 " show a git diff in the 'gutter'
 Plug 'airblade/vim-gitgutter'
 " async syntax checker
-Plug 'w0rp/ale'
+"Plug 'w0rp/ale'
 " fuzzy file finder
-Plug 'kien/ctrlp.vim'
+"Plug 'kien/ctrlp.vim'
 " fuzzy file finder
-Plug '/usr/local/opt/fzf'
+" plugInstall and PlugUpdate will clone fzf in ~/.fzf and run the install script
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " use <tab> for insert mode completions
-Plug 'ervandew/supertab'
+"Plug 'ervandew/supertab'
 " comment functions
 Plug 'scrooloose/nerdcommenter'
 " simple mappings for quoting/parenthesizing
@@ -96,22 +99,24 @@ Plug 'captbaritone/better-indent-support-for-php-with-html', {'for': 'php'}
 " pug template engine syntax highlighting and indention
 Plug 'digitaltoad/vim-pug'
 " open a list of most recently used files
-Plug 'yegappan/mru'
+"Plug 'yegappan/mru'
 " sublime text style multiple selections for Vim
 Plug 'terryma/vim-multiple-cursors'
+" intellisense engine
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " dark powered asynchronous completion framework for neovim/Vim8
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+"if has('nvim')
+  "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"else
+  "Plug 'Shougo/deoplete.nvim'
+  "Plug 'roxma/nvim-yarp'
+  "Plug 'roxma/vim-hug-neovim-rpc'
+"endif
 " LSP support for vim and neovim
-Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
-      \ }
+"Plug 'autozimu/LanguageClient-neovim', {
+      "\ 'branch': 'next',
+      "\ 'do': 'bash install.sh',
+      "\ }
 " Prettier
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
@@ -126,13 +131,13 @@ Plug 'tpope/vim-obsession'
 " completion function for function parameters
 Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 " deoplete.nvim source for Python
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }
+"Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 " omni-completion plugin for Java
-Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
+"Plug 'artur-shaik/vim-javacomplete2', { 'for': 'java' }
 " syntax source for neocomplete/deoplete/ncm
-Plug 'Shougo/neco-syntax'
+"Plug 'Shougo/neco-syntax'
 " completion of words in adjacent tmux panes
-Plug 'wellle/tmux-complete.vim'
+"Plug 'wellle/tmux-complete.vim'
 " navigate seamlessly between vim and tmux splits
 Plug 'christoomey/vim-tmux-navigator'
 " easily interact with tmux from vim
@@ -209,6 +214,8 @@ augroup CLClear
   autocmd! ColorScheme * hi clear CursorLine
 augroup END
 hi CursorLineNr term=bold ctermfg=Yellow gui=bold guifg=Yellow
+" prevent bad experience for coc.nvim diagnostic messages when it's default 4000
+set updatetime=300
 
 """ MAPPINGS
 "" General
@@ -240,6 +247,10 @@ nnoremap <leader>> <C-W>>
 nnoremap <leader>< <C-W><
 nnoremap <leader>+ <C-W>+
 nnoremap <leader>- <C-W>-
+" split zoom
+noremap <leader>zz <c-w>_ \| <c-w>\|
+noremap <leader>zi <c-w>_ \| <c-w>\|
+noremap <leader>zo <c-w>=
 " quick open
 nnoremap <leader>ss :vsplit<CR>
 nnoremap <leader>sv :vsplit<CR>
@@ -247,7 +258,6 @@ nnoremap <leader>sh :split<CR>
 nnoremap <leader>gf :vertical wincmd f<CR>
 nnoremap <leader>nt :NERDTree<CR>
 nnoremap <leader>ak :Ack<space>
-nnoremap <leader>aa :Ag<space>
 nnoremap <leader>ag :Ag<space>
 " tabs
 nnoremap <leader>tn :tabnew<CR>
@@ -299,7 +309,7 @@ inoremap <C-S> <Esc>:w<cr>i
 nnoremap <leader>wq :wq<CR>
 nnoremap <leader>Wq :wq!<CR>
 " open mru vim
-nnoremap <leader>fr :MRU<CR>
+"nnoremap <leader>fr :MRU<CR>
 " add line without changing mode or position
 nnoremap <leader>o m`o<Esc>``
 nnoremap <leader>O m`O<Esc>``
@@ -335,13 +345,92 @@ nnoremap <leader>vl :VimuxRunLastCommand<CR>
 nnoremap <leader>vi :VimuxInspectRunner<CR>
 nnoremap <leader>vz :VimuxZoomRunner<CR>
 "" LanguageClient mappings
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-nnoremap <leader>lf :call LanguageClient_textDocument_documentSymbol()<CR>
+"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+"nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+"nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+"nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+"nnoremap <leader>lf :call LanguageClient_textDocument_documentSymbol()<CR>
 "" Prettier mappings
 nmap <Leader>py <Plug>(Prettier)
+"" Denite mappings
+" inner mappings
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> o
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> v
+  \ denite#do_map('do_action:vsplit')
+  nnoremap <silent><buffer><expr> h
+  \ denite#do_map('do_action:split')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
+endfunction
+" filter
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+  imap <silent><buffer> <C-o> <Plug>(denite_filter_quit)
+endfunction
+" buffers
+nnoremap <leader>db :Denite buffer<CR>
+" file search
+nnoremap <leader>df :DeniteProjectDir file/rec<CR>
+" denite content search
+nnoremap <leader>da :DeniteProjectDir grep<CR>
+" cursor word
+nnoremap <leader>dj :DeniteCursorWord grep<CR>
+" registers
+nnoremap <leader>dr :Denite register<CR>
+" mru
+nnoremap <leader>dm :Denite file_mru<CR>
+"" Coc.nvim mappings
+" use <tab> for trigger completion and navigate to next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)"let g:deoplete#enable_at_startup = 1
+nnoremap <leader>cf :call CocAction('fold', <f-args>)<CR>
+nnoremap <leader>co :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
+nnoremap <leader>cp :call CocAction('format')<CR>
+" use K to show documentation in preview window
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+" remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+" use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+" use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+" use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
 
 """ FUNCTIONS
 " toggle preview window
@@ -390,12 +479,12 @@ let g:airline_section_z = airline#section#create(['windowswap', '%3p%% ', 'linen
 " ale syntax checker status
 let g:airline#extensions#ale#enabled = 1
 "" CtrlP options
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site|node_modules)$',
-  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-\}
-let g:ctrlp_max_files = 0
-let g:ctrlp_working_path_mode = 'r'
+"let g:ctrlp_custom_ignore = {
+  "\ 'dir':  '\v[\/](\.(git|hg|svn)|\_site|node_modules)$',
+  "\ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+"\}
+"let g:ctrlp_max_files = 0
+"let g:ctrlp_working_path_mode = 'r'
 "" Syntastic options
 let g:syntastic_javascript_checkers = ['eslint']
 "" JSX options
@@ -427,42 +516,42 @@ let g:user_emmet_settings = {
       \  },
       \}
 "" Deoplete options
-let g:deoplete#enable_at_startup = 1
+"let g:deoplete#enable_at_startup = 1
 " disable the candidates in Comment/String syntaxes.
-call deoplete#custom#source('_',
-      \ 'disabled_syntaxes', ['Comment', 'String'])
+"call deoplete#custom#source('_',
+      "\ 'disabled_syntaxes', ['Comment', 'String'])
 " sources
-call deoplete#custom#option('sources', {
-      \ '_': ['file'],
-      \ 'html': ['file', 'LanguageClient'],
-      \ 'css': ['file', 'LanguageClient'],
-      \ 'javascript': ['file', 'LanguageClient'],
-      \ 'javascript.jsx': ['file', 'LanguageClient'],
-      \ 'typescript': ['file', 'LanguageClient'],
-      \ 'typescript.jsx': ['file', 'LanguageClient'],
-      \ 'python': ['file', 'LanguageClient'],
-      \ })
+"call deoplete#custom#option('sources', {
+      "\ '_': ['file'],
+      "\ 'html': ['file', 'LanguageClient'],
+      "\ 'css': ['file', 'LanguageClient'],
+      "\ 'javascript': ['file', 'LanguageClient'],
+      "\ 'javascript.jsx': ['file', 'LanguageClient'],
+      "\ 'typescript': ['file', 'LanguageClient'],
+      "\ 'typescript.jsx': ['file', 'LanguageClient'],
+      "\ 'python': ['file', 'LanguageClient'],
+      "\ })
 " patterns
 "call deoplete#custom#option('omni_patterns', {
 		"\ 'java': '[^. *\t]\.\w*',
 		"\})
 "" LSP options
 " automatically start language servers
-let g:LanguageClient_autoStart = 1
+"let g:LanguageClient_autoStart = 1
 " no diagnostics handling
-let g:LanguageClient_diagnosticsEnable = 0
+"let g:LanguageClient_diagnosticsEnable = 0
 " required for operations modifying multiple buffers like rename.
-set hidden
+"set hidden
 " servers
-let g:LanguageClient_serverCommands = {
-      \ 'html': ['html-languageserver', '--stdio'],
-      \ 'css': ['css-languageserver', '--stdio'],
-      \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-      \ 'javascript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
-      \ 'typescript': ['/usr/local/bin/javascript-typescript-stdio'],
-      \ 'typescript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
-      \ 'python': ['/usr/local/bin/pyls'],
-      \ }
+"let g:LanguageClient_serverCommands = {
+      "\ 'html': ['html-languageserver', '--stdio'],
+      "\ 'css': ['css-languageserver', '--stdio'],
+      "\ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+      "\ 'javascript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
+      "\ 'typescript': ['/usr/local/bin/javascript-typescript-stdio'],
+      "\ 'typescript.jsx': ['/usr/local/bin/javascript-typescript-stdio'],
+      "\ 'python': ['/usr/local/bin/pyls'],
+      "\ }
 "" Javacomplete2
 " autocmd FileType java setlocal omnifunc=javacomplete#Complete
 "" Supertab options
@@ -481,5 +570,19 @@ let g:UltiSnipsExpandTrigger="<C-e>"
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 "" Fzf options
-set rtp+=~/.fzf
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+"" Deinite options
+" change file/rec command
+call denite#custom#var('file/rec', 'command',
+      \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+" use ag for content search
+call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'default_opts',
+      \ ['-i', '--vimgrep'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', [])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+"" Coc.nvim options
+" close preview window when completion is done.
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
