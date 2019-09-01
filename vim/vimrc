@@ -216,6 +216,8 @@ augroup END
 hi CursorLineNr term=bold ctermfg=Yellow gui=bold guifg=Yellow
 " prevent bad experience for coc.nvim diagnostic messages when it's default 4000
 set updatetime=300
+" better display for coc.nvim messages
+"set cmdheight=2
 
 """ MAPPINGS
 "" General
@@ -296,7 +298,7 @@ nnoremap <leader>ee :e<Space>
 nnoremap <leader>ve :edit $MYVIMRC<CR>
 nnoremap <leader>vrc :edit $HOME/.vimrc<CR>
 nnoremap <leader>Ve :edit! $MYVIMRC<CR>
-nnoremap <leader>Vrc :edit $HOME/.vimrc<CR>
+nnoremap <leader>Vrc :edit! $HOME/.vimrc<CR>
 nnoremap <leader>vs :source $MYVIMRC<CR>:nohlsearch<CR>
 " quit a file
 nnoremap <leader>q :q<CR>
@@ -394,18 +396,15 @@ nnoremap <leader>dr :Denite register<CR>
 nnoremap <leader>dm :Denite file_mru<CR>
 "" Coc.nvim mappings
 " use <tab> for trigger completion and navigate to next complete item
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Use <cr> and <c-space> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+inoremap <silent><expr> <C-SPACE> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 " remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gt <Plug>(coc-type-definition)
@@ -415,13 +414,6 @@ nnoremap <leader>cf :call CocAction('fold', <f-args>)<CR>
 nnoremap <leader>co :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
 nnoremap <leader>cp :call CocAction('format')<CR>
 " use K to show documentation in preview window
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 " remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
@@ -431,8 +423,11 @@ vmap <C-j> <Plug>(coc-snippets-select)
 let g:coc_snippet_next = '<c-j>'
 " use <C-k> for jump to previous placeholder, it's default of coc.nvim
 let g:coc_snippet_prev = '<c-k>'
+" open Coc.nvim config
+nnoremap <leader>crc :CocConfig<CR>
 
 """ FUNCTIONS
+"" General
 " toggle preview window
 function! TogglePreview()
   if (&completeopt =~ '.*preview.*')
@@ -459,6 +454,18 @@ function! StripTrailingWhitespaces()
   %s/\s\+$//e
   let @/=_s
   call cursor(l, c)
+endfunction
+"" Coc.nvim functions
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 
 """ PLUGINS
@@ -586,3 +593,6 @@ call denite#custom#var('grep', 'final_opts', [])
 "" Coc.nvim options
 " close preview window when completion is done.
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+" default extensions
+let g:coc_global_extensions = ['coc-word', 'coc-tsserver', 'coc-eslint',
+      \'coc-json', 'coc-css', 'coc-snippets', 'coc-ultisnips']
