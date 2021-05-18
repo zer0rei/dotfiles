@@ -32,10 +32,22 @@ fi
 
 ### PATH
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+# add rust to path
+export PATH=$PATH:$HOME/.
+# add rust to path
+export PATH="$HOME/.cargo/bin:$PATH"
 # add nvm to path
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# React Native
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+# Source rust
+source $HOME/.cargo/env
 
 ### ALIAS
 alias c="clear"
@@ -43,7 +55,7 @@ alias vim="nvim"
 alias v="nvim"
 alias nv="nvim"
 alias ts="task"
-alias t="tmux attach -t"
+alias t="tmux attach"
 alias tma="tmux attach -t"
 alias tmn="tmux new -s"
 alias tml='tmux list-sessions'
@@ -53,6 +65,8 @@ alias nve="nvim $HOME/.vimrc"
 alias zs="source $HOME/.zshrc"
 alias op="open"
 alias kh="k -h"
+alias ns="npm start"
+alias nb="npm run build"
 # start a python http server
 alias pyserv="python3 -m http.server 8080"
 # thefuck aliases
