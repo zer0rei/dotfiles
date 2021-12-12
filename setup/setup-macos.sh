@@ -1,8 +1,7 @@
 #==============
 # Install all the packages
 #==============
-sudo chown -R $(whoami):admin /usr/local
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew doctor
 brew update
 brew install git
