@@ -90,8 +90,6 @@ Plug 'honza/vim-snippets'
 Plug 'epilande/vim-react-snippets'
 " ledger filetype for vim
 Plug 'ledger/vim-ledger', {'for': ['ledger', 'ldg', 'dat']}
-" vim interface for taskwarrior
-Plug 'blindFS/vim-taskwarrior'
 " up to date php syntax for vim
 Plug 'StanAngeloff/php.vim', {'for': 'php'}
 " better indent HTML sections in PHP files
@@ -294,11 +292,11 @@ nnoremap <leader>Wq :wq!<CR>
 " add line without changing mode or position
 nnoremap <leader>o m`o<Esc>``
 nnoremap <leader>O m`O<Esc>``
-" yank text to the OS X clipboard
-noremap <leader>y "*y
-noremap <leader>yy "*Y
+" yank text to the clipboard
+noremap <leader>y "+y
+noremap <leader>yy "+Y
 " preserve indentation while pasting text from the OS X clipboard
-noremap <leader>p :set paste<CR>:put  *<CR>:set nopaste<CR>
+noremap <leader>p :set paste<CR>:put  +<CR>:set nopaste<CR>
 " preserve visual selection after indenting
 vmap > >gv
 vmap < <gv
