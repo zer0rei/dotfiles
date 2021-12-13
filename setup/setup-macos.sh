@@ -47,7 +47,7 @@ brew bundle
 cd -
 
 # install oh my zsh
-$ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ln -sf ~/.dotfiles/zsh/zshrc ~/.zshrc
 SYMLINKS+=('.zshrc')
 
