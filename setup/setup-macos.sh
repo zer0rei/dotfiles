@@ -59,9 +59,9 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 #==============
 chsh -s /bin/zsh
 
-source ~/.zshrc
 # setup neovim
 pip3 install neovim
+nvim +PlugClean +PlugInstall +qa
 
 #==============
 # And we are done
