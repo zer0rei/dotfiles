@@ -7,7 +7,7 @@ brew update
 brew install git
 
 rm -rf ~/.dotfiles
-git clone https://github.com/zer0rei/dotfiles.git ~/.dotfiles
+git clone git@github.com:zer0rei/dotfiles.git ~/.dotfiles
 
 #==============
 # Remove old dot flies
