@@ -48,11 +48,7 @@ cd -
 # install oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ln -sf ~/.dotfiles/zsh/zshrc ~/.zshrc
-source ~/.zshrc
 SYMLINKS+=('.zshrc')
-
-# setup neovim
-pip3 install neovim
 
 # install vim-plug
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -62,6 +58,10 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 # Set zsh as the default shell
 #==============
 chsh -s /bin/zsh
+
+source ~/.zshrc
+# setup neovim
+pip3 install neovim
 
 #==============
 # And we are done
