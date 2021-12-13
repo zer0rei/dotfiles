@@ -18,3 +18,4 @@ cask "karabiner-elements"
 # languages
 brew "node"
 brew "nvm"
+brew "python"

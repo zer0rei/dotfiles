@@ -10,7 +10,7 @@ rm -rf ~/.dotfiles
 git clone git@github.com:zer0rei/dotfiles.git ~/.dotfiles
 
 #==============
-# Remove old dot flies
+# Remove old dotfiles
 #==============
 sudo rm -rf ~/.vim > /dev/null 2>&1
 sudo rm -rf ~/.vimrc > /dev/null 2>&1
@@ -27,18 +27,19 @@ sudo rm -rf ~/Brewfile > /dev/null 2>&1
 # Allow overriding with files of matching names in the custom-configs dir
 #==============
 SYMLINKS=()
-ln -sf ~/.dotfiles/vim/vim ~/.vim
-SYMLINKS+=('.vim')
 ln -sf ~/.dotfiles/vim/vimrc ~/.vimrc
 SYMLINKS+=('.vimrc')
 ln -sf ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
 SYMLINKS+=('.tmux.conf')
-ln -sf ~/.dotfiles/config ~/.config
-SYMLINKS+=('.config')
 ln -sf ~/.dotfiles/git/git-prompt.sh ~/.git-prompt.sh
 SYMLINKS+=('.git-prompt.sh')
 ln -sf ~/.dotfiles/homebrew/Brewfile ~/Brewfile
 SYMLINKS+=('Brewfile')
+mkdir ~/.config
+ln -sf ~/.dotfiles/config/karabiner ~/.config/karabiner
+SYMLINKS+=('karabiner')
+ln -sf ~/.dotfiles/config/nvim ~/.config/nvim
+SYMLINKS+=('nvim')
 
 cd ~
 brew bundle
@@ -47,7 +48,15 @@ cd -
 # install oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ln -sf ~/.dotfiles/zsh/zshrc ~/.zshrc
+source ~/.zshrc
 SYMLINKS+=('.zshrc')
+
+# setup neovim
+pip3 install neovim
+
+# install vim-plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 #==============
 # Set zsh as the default shell
