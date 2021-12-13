@@ -6,10 +6,6 @@ brew doctor
 brew update
 brew install git
 
-# So we use all of the packages we are about to install
-echo "export PATH='/usr/local/bin:$PATH'\n" >> ~/.bashrc
-source ~/.bashrc
-
 rm -rf ~/.dotfiles
 git clone https://github.com/zer0rei/dotfiles.git ~/.dotfiles
 
