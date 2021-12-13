@@ -8,6 +8,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 ## Plugin list
 plugins=(git macos extract z web-search colored-man-pages)
+plugins+=(zsh-autosuggestions zsh-syntax-highlighting)
 
 ## Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
