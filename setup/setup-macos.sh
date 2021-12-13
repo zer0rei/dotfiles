@@ -27,18 +27,16 @@ sudo rm -rf ~/Brewfile > /dev/null 2>&1
 # Allow overriding with files of matching names in the custom-configs dir
 #==============
 SYMLINKS=()
-ln -sf ~/.dotfiles/vim ~/.vim
+ln -sf ~/.dotfiles/vim/vim ~/.vim
 SYMLINKS+=('.vim')
-ln -sf ~/.dotfiles/vimrc ~/.vimrc
+ln -sf ~/.dotfiles/vim/vimrc ~/.vimrc
 SYMLINKS+=('.vimrc')
-ln -sf ~/.dotfiles/bashrc ~/.bashrc
-SYMLINKS+=('.bashrc')
-ln -sf ~/.dotfiles/mac-tmux ~/.tmux
-SYMLINKS+=('.tmux')
+ln -sf ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
+SYMLINKS+=('.tmux.conf')
 ln -sf ~/.dotfiles/config ~/.config
 SYMLINKS+=('.config')
 ln -sf ~/.dotfiles/git/git-prompt.sh ~/.git-prompt.sh
-SYMLINKS+=('git-prompt')
+SYMLINKS+=('.git-prompt.sh')
 ln -sf ~/.dotfiles/homebrew/Brewfile ~/Brewfile
 SYMLINKS+=('Brewfile')
 
