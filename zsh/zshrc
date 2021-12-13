@@ -46,7 +46,7 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 # Source rust
-source $HOME/.cargo/env
+[ -s "$HOME/.cargo" ] && source $HOME/.cargo/env
 
 ### ALIAS
 alias c="clear"

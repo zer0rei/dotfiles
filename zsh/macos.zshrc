@@ -1,15 +1,5 @@
-# add anaconda to path
-export PATH=/Users/hamza/anaconda3/bin:$PATH
-# remove/add anaconda to path automatically when brewing
-export SANS_ANACONDA="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
-export PATH="/Users/hamza/anaconda3/bin:$SANS_ANACONDA"
-alias prebrew="export PATH="\$SANS_ANACONDA" && echo Removing anaconda from PATH."
-alias postbrew="export PATH="/Users/hamza/anaconda3/bin:\$SANS_ANACONDA" && echo Adding anaconda to PATH."
-brew () {
-  prebrew
-  command brew "$@"
-  postbrew
-}
+### PATH
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
 
 ### ALIAS
 alias brewup="brew update; brew upgrade; brew cleanup; brew doctor"

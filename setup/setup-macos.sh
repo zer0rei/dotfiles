@@ -18,7 +18,7 @@ sudo rm -rf ~/.bashrc > /dev/null 2>&1
 sudo rm -rf ~/.tmux > /dev/null 2>&1
 sudo rm -rf ~/.tmux.conf > /dev/null 2>&1
 sudo rm -rf ~/.zshrc > /dev/null 2>&1
-sudo rm -rf ~/.gitconfig > /dev/null 2>&1
+sudo rm -rf ~/.git-prompt.sh > /dev/null 2>&1
 sudo rm -rf ~/.config > /dev/null 2>&1
 sudo rm -rf ~/Brewfile > /dev/null 2>&1
 
@@ -35,18 +35,21 @@ ln -sf ~/.dotfiles/bashrc ~/.bashrc
 SYMLINKS+=('.bashrc')
 ln -sf ~/.dotfiles/mac-tmux ~/.tmux
 SYMLINKS+=('.tmux')
-ln -sf ~/.dotfiles/zsh/zshrc ~/.zshrc
-SYMLINKS+=('.zshrc')
 ln -sf ~/.dotfiles/config ~/.config
 SYMLINKS+=('.config')
+ln -sf ~/.dotfiles/git/git-prompt.sh ~/.git-prompt.sh
+SYMLINKS+=('git-prompt')
 ln -sf ~/.dotfiles/homebrew/Brewfile ~/Brewfile
 SYMLINKS+=('Brewfile')
-
-echo ${SYMLINKS[@]}
 
 cd ~
 brew bundle
 cd -
+
+# install oh my zsh
+$ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+ln -sf ~/.dotfiles/zsh/zshrc ~/.zshrc
+SYMLINKS+=('.zshrc')
 
 #==============
 # Set zsh as the default shell
@@ -56,4 +59,5 @@ chsh -s /bin/zsh
 #==============
 # And we are done
 #==============
+echo ${SYMLINKS[@]}
 echo -e "\n====== All Done!! ======\n"
