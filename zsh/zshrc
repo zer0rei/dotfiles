@@ -37,8 +37,7 @@ export PATH=$PATH:$HOME/.
 export PATH="$HOME/.cargo/bin:$PATH"
 # add nvm to path
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR" ] && source $(brew --prefix nvm)/nvm.sh
 # React Native
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
