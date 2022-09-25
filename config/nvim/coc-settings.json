@@ -9,6 +9,7 @@
     "typescript.tsx"
   ],
   "coc.preferences.formatOnSaveFiletypes": [
+    "python",
     "javascript",
     "typescript",
     "javascriptreact",
@@ -20,5 +21,6 @@
     "html",
     "markdown",
     "rust"
-  ]
+  ],
+  "python.formatting.provider": "black"
 }

@@ -30,11 +30,14 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 ### PATH
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/bin"
 # add rust to path
 export PATH=$PATH:$HOME/.
 # add rust to path
 export PATH="$HOME/.cargo/bin:$PATH"
+# Add brew to PATH
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/haelguaoussi/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 # add nvm to path
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR" ] && source $(brew --prefix nvm)/nvm.sh
@@ -44,8 +47,21 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+# Poetry
+export PATH=$PATH:$HOME/.local/bin
 # Source rust
 [ -s "$HOME/.cargo" ] && source $HOME/.cargo/env
+# Mcfly shell history
+eval "$(mcfly init zsh)"
+
+# zsh autocompletion
+autoload -Uz compinit && compinit
+
+# load pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export PATH=$(pyenv root)/shims:$PATH
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 ### ALIAS
 alias c="clear"

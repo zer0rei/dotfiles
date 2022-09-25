@@ -82,6 +82,8 @@ Plug 'peterhoeg/vim-qml', {'for': 'qml'}
 Plug 'edtsft/vim-qrc', {'for': 'qrc'}
 " comply with pep8 in python indentation
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'py'}
+" black python code formatter
+Plug 'ambv/black'
 " snippets engine for vim
 Plug 'SirVer/ultisnips'
 " snippets
@@ -112,6 +114,8 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 " easily interact with tmux from vim
 Plug 'benmills/vimux'
+" browse cheat sheet from cheat.sh directly from vim
+Plug 'dbeniamine/cheat.sh-vim'
 " updates tags files automatically when saving
 "Plug 'craigemery/vim-autotag'
 
@@ -287,8 +291,6 @@ inoremap <C-S> <Esc>:w<cr>i
 " save then quit a file
 nnoremap <leader>wq :wq<CR>
 nnoremap <leader>Wq :wq!<CR>
-" open mru vim
-"nnoremap <leader>fr :MRU<CR>
 " add line without changing mode or position
 nnoremap <leader>o m`o<Esc>``
 nnoremap <leader>O m`O<Esc>``
@@ -304,7 +306,6 @@ vmap < <gv
 nnoremap <leader>fs :set foldmethod=syntax<CR>
 nnoremap z{ zfi{
 nnoremap z[ zfi[
-"" Ale mappings
 "" Fzf mappings
 nnoremap <leader><tab> :Files<CR>
 nnoremap <leader>fzf :Files<CR>
@@ -323,7 +324,7 @@ nnoremap <leader>glc :Glog -- %<CR>
 nnoremap <leader>gla :Glog<CR>
 "" Vimux mappings
 nnoremap <leader>vp :VimuxPromptCommand<CR>
-nnoremap <leader>vl :VimuxRunLastCommand<CR>
+nnoremap <leader>vl :VimuxuLastCommand<CR>
 nnoremap <leader>vi :VimuxInspectRunner<CR>
 nnoremap <leader>vz :VimuxZoomRunner<CR>
 "" Denite mappings
@@ -380,7 +381,7 @@ inoremap <silent><expr> <C-SPACE> pumvisible() ? coc#_select_confirm() : "\<C-g>
 " formatting
 vmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
-nnoremap <leader>cp :call CocAction('format')<CR>
+nnoremap <leader>f :call CocAction('format')<CR>
 " error navigation
 nnoremap <leader>erp <Plug>(coc-diagnostic-prev)
 nnoremap <leader>ern <Plug>(coc-diagnostic-next)
@@ -389,6 +390,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gb :b#<CR>
 nnoremap <leader>cf :call CocAction('fold', <f-args>)<CR>
 " organize imports
 nnoremap <leader>co :call CocAction('runCommand', 'editor.action.organizeImport')<CR>
@@ -459,22 +461,17 @@ nnoremap <leader>ig :IndentGuidesToggle<CR>
 let g:airline_theme='monokai_tasty'
 "let g:airline_theme='luna'
 let g:airline_powerline_fonts = 1
-let g:ale_linters = { 'javascript': ['eslint'] }
 " set the filename section
 let g:airline_section_c = '%t'
 " set the line number section
 let g:airline_section_z = airline#section#create(['windowswap', '%3p%% ', 'linenr', ':%3v'])
-" ale syntax checker status
-let g:airline#extensions#ale#enabled = 1
-"" Syntastic options
-let g:syntastic_javascript_checkers = ['eslint']
 "" JSX options
 " allow JSX in normal JS files
 let g:jsx_ext_required = 0
 "" Ledger options
 let g:ledger_align_at = 60
 let g:ledger_decimal_sep = '.'
-let g:ledger_default_commodity = 'MAD'
+let g:ledger_default_commodity = 'EUR'
 let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = ' '
 augroup ledger
@@ -525,4 +522,4 @@ call denite#custom#var('grep', 'final_opts', [])
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " default extensions
 let g:coc_global_extensions = ['coc-word', 'coc-highlight', 'coc-tsserver', 'coc-eslint',
-      \'coc-prettier', 'coc-json', 'coc-css', 'coc-snippets', 'coc-ultisnips', 'coc-rls']
+      \'coc-prettier', 'coc-json', 'coc-css', 'coc-snippets', 'coc-ultisnips', 'coc-rls', 'coc-pyright']
