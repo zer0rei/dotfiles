@@ -2,6 +2,7 @@
 cask "iterm2"
 brew "tmux"
 brew "zsh"
+brew "tig"
 
 # vim tools
 brew "neovim"
@@ -9,6 +10,7 @@ brew "ctags"
 
 # search tools
 brew "the_silver_searcher"
+brew "fzf"
 
 # keyboard tools
 cask "karabiner-elements"
