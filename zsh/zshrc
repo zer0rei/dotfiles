@@ -81,8 +81,8 @@ alias ns="npm start"
 alias nb="npm run build"
 # start a python http server
 alias pyserv="python3 -m http.server 8080"
-# ansiweather for various cities
-alias weather='ansiweather -l Berlin,DE; ansiweather -l Marrakech,MA; ansiweather -l Rabat,MA; ansiweather -l Paris,FR'
+# weather for various cities
+alias weather="wttr Berlin; wttr Marrakech; wttr Rabat; wttr Paris"
 
 ### PROMPT
 autoload -U colors && colors
@@ -189,4 +189,8 @@ function mkrc() {
   touch "${name}/${name}.${ext}x"
   touch "${name}/index.${ext}"
   echo "import ${name} from './${name}';\n\nexport default ${name};\nexport * from './${name}';" > "${name}/index.${ext}"
+}
+# get weather
+function wttr() {
+  curl "wttr.in/$1?format=%l:+%c%t+%p+UV%u+%w+%P\n"
 }
