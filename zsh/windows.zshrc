@@ -1,5 +1,5 @@
 # add local python packages to path in WSL
-export PATH=/home/helguaoussi/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 ### ALIAS
 # wsl aliases

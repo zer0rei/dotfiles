@@ -15,6 +15,23 @@ source $ZSH/oh-my-zsh.sh
 
 #### USER
 
+### PATH
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/bin"
+# add rust to path
+export PATH=$PATH:$HOME/.
+# add rust to path
+export PATH="$HOME/.cargo/bin:$PATH"
+# add nvm to path
+export NVM_DIR="$HOME/.nvm"
+# React Native
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+# Poetry
+export PATH=$PATH:$HOME/.local/bin
+
 ### CONFIGS
 # wsl config
 if [ -f /proc/version ]; then
@@ -26,37 +43,18 @@ fi
 if [ "$(uname 2> /dev/null)" != "Linux" ]; then
   source $HOME/.dotfiles/zsh/macos.zshrc
 fi
+# local config
+if [ -f $HOME/.dotfiles/zsh/local.zshrc ]; then
+ source $HOME/.dotfiles/zsh/local.zshrc
+fi
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-### PATH
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/bin"
-# add rust to path
-export PATH=$PATH:$HOME/.
-# add rust to path
-export PATH="$HOME/.cargo/bin:$PATH"
-# Add brew to PATH
-echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/haelguaoussi/.zprofile
-eval "$(/opt/homebrew/bin/brew shellenv)"
-# add nvm to path
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR" ] && source $(brew --prefix nvm)/nvm.sh
-# React Native
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-# Poetry
-export PATH=$PATH:$HOME/.local/bin
-# Source rust
+# rust
 [ -s "$HOME/.cargo" ] && source $HOME/.cargo/env
 # Mcfly shell history
 eval "$(mcfly init zsh)"
-
 # zsh autocompletion
 autoload -Uz compinit && compinit
-
 # load pyenv
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
@@ -83,9 +81,8 @@ alias ns="npm start"
 alias nb="npm run build"
 # start a python http server
 alias pyserv="python3 -m http.server 8080"
-# thefuck aliases
-eval $(thefuck --alias)
-eval $(thefuck --alias f)
+# ansiweather for various cities
+alias weather='ansiweather -l Berlin,DE; ansiweather -l Marrakech,MA; ansiweather -l Rabat,MA; ansiweather -l Paris,FR'
 
 ### PROMPT
 autoload -U colors && colors
@@ -115,11 +112,6 @@ bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
 
 ### OTHER
-# load rbenv automatically
-#export PATH="$HOME/.rbenv/bin:$PATH"
-#eval "$(rbenv init - zsh)"
-# zsh prompt syntax highlighting
-#source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 #Change ls colours
 LS_COLORS="ow=01;36;40" && export LS_COLORS

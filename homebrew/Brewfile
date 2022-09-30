@@ -2,6 +2,7 @@
 cask "iterm2"
 brew "tmux"
 brew "zsh"
+brew "bash"
 brew "tig"
 
 # vim tools
