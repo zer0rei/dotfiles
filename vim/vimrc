@@ -326,7 +326,7 @@ nnoremap <leader>glc :Glog -- %<CR>
 nnoremap <leader>gla :Glog<CR>
 "" Vimux mappings
 nnoremap <leader>vp :VimuxPromptCommand<CR>
-nnoremap <leader>vl :VimuxuLastCommand<CR>
+nnoremap <leader>vl :VimuxRunLastCommand<CR>
 nnoremap <leader>vi :VimuxInspectRunner<CR>
 nnoremap <leader>vz :VimuxZoomRunner<CR>
 "" Denite mappings
