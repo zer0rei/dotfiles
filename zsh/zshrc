@@ -82,7 +82,7 @@ alias nb="npm run build"
 # start a python http server
 alias pyserv="python3 -m http.server 8080"
 # weather for various cities
-alias weather="wttr Berlin; wttr Marrakech; wttr Rabat; wttr Paris"
+alias weather="wttr Berlin; wttr Marrakesh; wttr Rabat; wttr Paris"
 
 ### PROMPT
 autoload -U colors && colors
@@ -192,5 +192,5 @@ function mkrc() {
 }
 # get weather
 function wttr() {
-  curl "wttr.in/$1?format=%l:+%c%t+%p+UV%u+%w+%P\n"
+  curl "wttr.in/$1?format=%l:+%c%t+%p+UVI%u+%w+%P\n"
 }
