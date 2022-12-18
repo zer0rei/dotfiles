@@ -2,6 +2,15 @@
 
 #### PLUGIN MANAGER
 
+# Brew completion
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+
 ### OH-MY-ZSH
 ## Path to oh-my-zsh installation
 export ZSH=$HOME/.oh-my-zsh
@@ -67,7 +76,7 @@ alias vim="nvim"
 alias v="nvim"
 alias nv="nvim"
 alias ts="task"
-alias t="tmux"
+alias t="tmux attach || tmux"
 alias tma="tmux attach -t"
 alias tmn="tmux new -s"
 alias tml='tmux list-sessions'

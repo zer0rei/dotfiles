@@ -86,6 +86,8 @@ Plug 'edtsft/vim-qrc', {'for': 'qrc'}
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'py'}
 " black python code formatter
 Plug 'ambv/black'
+" python folding
+Plug 'tmhedberg/simpylfold'
 " snippets engine for vim
 Plug 'SirVer/ultisnips'
 " snippets
@@ -118,6 +120,8 @@ Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'benmills/vimux'
 " browse cheat sheet from cheat.sh directly from vim
 Plug 'dbeniamine/cheat.sh-vim'
+" a Filetype plugin for csv files
+Plug 'chrisbra/csv.vim'
 " updates tags files automatically when saving
 "Plug 'craigemery/vim-autotag'
 
@@ -192,6 +196,8 @@ set updatetime=300
 "set cmdheight=2
 " default diff
 set diffopt+=vertical
+" open folds by default
+set foldlevel=99
 
 """ MAPPINGS
 "" General
@@ -205,6 +211,17 @@ inoremap jk <esc>
 " apply mapping
 nnoremap Q @q
 vnoremap Q :norm @q<CR>
+" increase number
+nnoremap <c-i> <c-a>
+" folding
+nnoremap zz za
+nnoremap za zA
+nnoremap zo zR
+nnoremap zc zM
+nnoremap <leader>fs :set foldmethod=syntax<CR>
+nnoremap <leader>fi :set foldmethod=indent<CR>
+nnoremap z{ zfi{
+nnoremap z[ zfi[
 " better completion (uncomment if not using a plugin)
 "inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 "inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -304,10 +321,6 @@ noremap <leader>p :set paste<CR>:put  +<CR>:set nopaste<CR>
 " preserve visual selection after indenting
 vmap > >gv
 vmap < <gv
-" fold
-nnoremap <leader>fs :set foldmethod=syntax<CR>
-nnoremap z{ zfi{
-nnoremap z[ zfi[
 "" Fzf mappings
 nnoremap <leader><tab> :Files<CR>
 nnoremap <leader>fzf :Files<CR>
@@ -321,6 +334,7 @@ nnoremap <leader>gc :Gcommit<CR>
 nnoremap <leader>gd :Gdiff<CR>
 nnoremap <leader>gmv :Gmove<space>
 nnoremap <leader>gb :Git branch<Space>
+nnoremap <leader>gl :Git blame<CR>
 nnoremap <leader>go :Git checkout<Space>
 nnoremap <leader>glc :Glog -- %<CR>
 nnoremap <leader>gla :Glog<CR>
