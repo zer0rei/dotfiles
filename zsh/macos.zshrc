@@ -1,7 +1,10 @@
 # Add brew to PATH
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# source nvm
+# Add pyenv to path
+export PATH=$(pyenv root)/shims:$PATH
+
+# Source nvm
 [ -s "$NVM_DIR" ] && source $(brew --prefix nvm)/nvm.sh
 
 ### ALIAS

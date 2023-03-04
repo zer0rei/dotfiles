@@ -52,6 +52,10 @@ fi
 if [ "$(uname 2> /dev/null)" != "Linux" ]; then
   source $HOME/.dotfiles/zsh/macos.zshrc
 fi
+# linux config
+if [ "$(uname 2> /dev/null)" == "Linux" ]; then
+  source $HOME/.dotfiles/zsh/linux.zshrc
+fi
 # local config
 if [ -f $HOME/.dotfiles/zsh/local.zshrc ]; then
  source $HOME/.dotfiles/zsh/local.zshrc
@@ -60,14 +64,11 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # rust
 [ -s "$HOME/.cargo" ] && source $HOME/.cargo/env
-# Mcfly shell history
-eval "$(mcfly init zsh)"
 # zsh autocompletion
 autoload -Uz compinit && compinit
 # load pyenv
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-export PATH=$(pyenv root)/shims:$PATH
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
 ### ALIAS
