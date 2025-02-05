@@ -133,7 +133,6 @@ compinit
 
 ### PLUGINS
 ## Autosuggestions
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=0"
 bindkey '^ ' autosuggest-accept
 
 ### FUNCTIONS

@@ -88,8 +88,6 @@ Plug 'Vimjas/vim-python-pep8-indent', {'for': 'py'}
 Plug 'ambv/black'
 " python folding
 Plug 'tmhedberg/simpylfold'
-" snippets engine for vim
-Plug 'SirVer/ultisnips'
 " snippets
 Plug 'honza/vim-snippets'
 " react code snippets
@@ -122,6 +120,8 @@ Plug 'benmills/vimux'
 Plug 'dbeniamine/cheat.sh-vim'
 " a Filetype plugin for csv files
 Plug 'chrisbra/csv.vim'
+" copilot
+Plug 'github/copilot.vim'
 " updates tags files automatically when saving
 "Plug 'craigemery/vim-autotag'
 
